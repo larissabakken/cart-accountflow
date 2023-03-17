@@ -1,7 +1,7 @@
-import React from "react";
+import React, { memo } from "react";
 
-export default function Basket(props) {
-  const { cartItems } = props;
+function Cart(props) {
+  const { cartItems, totalPrice } = props;
 
   return (
     <aside className="block col-1">
@@ -15,7 +15,7 @@ export default function Basket(props) {
               <button className="add">+</button>
             </div>
 
-            <div className="col-2 text-right">Quantity x Price</div>
+            <div className="col-2 text-right">{item.quantity} x ${item.price}</div>
           </div>
         ))}
 
@@ -27,7 +27,7 @@ export default function Basket(props) {
                 <strong>Total Price</strong>
               </div>
               <div className="col-1 text-right">
-                <strong>$ Total price</strong>
+                <strong>${totalPrice}</strong>
               </div>
             </div>
           </>
@@ -36,3 +36,5 @@ export default function Basket(props) {
     </aside>
   );
 }
+
+export default memo(Cart);
