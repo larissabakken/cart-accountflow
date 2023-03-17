@@ -1,7 +1,7 @@
 import React, { memo } from "react";
 
 function Cart(props) {
-  const { cartItems, totalPrice } = props;
+  const { cartItems, totalPrice, onAdd, onRemove } = props;
 
   return (
     <aside className="block col-1">
@@ -11,11 +11,17 @@ function Cart(props) {
           <div key={item.id} className="row">
             <div className="col-2">{item.title}</div>
             <div className="col-2">
-              <button className="remove">-</button>{" "}
-              <button className="add">+</button>
+              <button className="remove" onClick={() => onRemove(item)}>
+                -
+              </button>
+              <button className="add" onClick={() => onAdd(item)}>
+                +
+              </button>
             </div>
 
-            <div className="col-2 text-right">{item.quantity} x ${item.price}</div>
+            <div className="col-2 text-right">
+              {item.quantity} x ${item.price}
+            </div>
           </div>
         ))}
 

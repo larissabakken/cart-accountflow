@@ -3,14 +3,6 @@ import ListProducts from "./ListProducts";
 import Cart from "./Cart";
 import { addToCart, calculateTotalPrice } from "./utils";
 
-// TODO:
-// 1. Fetch products from https://api.escuelajs.co/api/v1/products?offset=0&limit=9
-// 2. Display products inside Main component with ability to add to cart
-// 3. Implement a simple Cart where you can see all added products
-//    with quantity and price per item, total price, controls to
-//    change quantity
-// 4. Optimize everything to avoid extra rerenders
-
 function App() {
   const [cartItems, setCartItems] = useState([]);
   const [products, setProducts] = useState([]);
@@ -32,12 +24,53 @@ function App() {
     },
     [setCartItems]
   );
+
+  const handleAddItem = useCallback(
+    (item) => {
+      const updatedCartItems = cartItems.map((cartItem) => {
+        if (cartItem.id === item.id) {
+          return {
+            ...cartItem,
+            quantity: cartItem.quantity + 1,
+          };
+        }
+        return cartItem;
+      });
+      setCartItems(updatedCartItems);
+    },
+    [cartItems, setCartItems]
+  );
+
+  const handleRemoveItem = useCallback(
+    (item) => {
+      const updatedCartItems = cartItems
+        .map((cartItem) => {
+          if (cartItem.id === item.id) {
+            return {
+              ...cartItem,
+              quantity: cartItem.quantity - 1,
+            };
+          }
+          return cartItem;
+        })
+        .filter((cartItem) => cartItem.quantity > 0);
+      setCartItems(updatedCartItems);
+    },
+    [cartItems, setCartItems]
+  );
+
   const totalPrice = useMemo(() => calculateTotalPrice(cartItems), [cartItems]);
+
   return (
     <div className="App">
       <div className="col">
         <ListProducts products={products} addToCart={handleAddToCart} />
-        <Cart cartItems={cartItems} totalPrice={totalPrice} />
+        <Cart
+          cartItems={cartItems}
+          totalPrice={totalPrice}
+          onAdd={handleAddItem}
+          onRemove={handleRemoveItem}
+        />
       </div>
     </div>
   );
