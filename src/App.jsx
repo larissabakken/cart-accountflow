@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import ListProducts from "./ListProducts";
 import Cart from "./Cart";
+import { addToCart, calculateTotalPrice } from "./utils";
 
 // TODO:
 // 1. Fetch products from https://api.escuelajs.co/api/v1/products?offset=0&limit=9
@@ -25,22 +26,18 @@ function App() {
     fetchData();
   }, []);
 
-  const addToCart = (product) => {
-    const exsistingItem = cartItems.find(
-      (element) => element.id === product.id
-    );
-    console.log(exsistingItem);
-    if (!exsistingItem) {
-      console.log(...cartItems, product)
-      setCartItems([...cartItems, product]);
-    }
-  };
-
+  const handleAddToCart = useCallback(
+    (product) => {
+      setCartItems((prevCartItems) => addToCart(prevCartItems, product));
+    },
+    [setCartItems]
+  );
+  const totalPrice = useMemo(() => calculateTotalPrice(cartItems), [cartItems]);
   return (
     <div className="App">
       <div className="col">
-        <ListProducts data={products} addToCart={addToCart} />
-        <Cart cartItems={cartItems} />
+        <ListProducts products={products} addToCart={handleAddToCart} />
+        <Cart cartItems={cartItems} totalPrice={totalPrice} />
       </div>
     </div>
   );
