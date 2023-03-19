@@ -1,45 +1,70 @@
 import React, { memo } from "react";
+import Button from "@mui/material/Button";
+import Box from "@mui/material/Box";
+import { BsCartPlus, BsCartDash } from "react-icons/bs";
+import Card from "@mui/material/Card";
+
 
 function Cart(props) {
   const { cartItems, totalPrice, onAdd, onRemove } = props;
 
   return (
-    <aside className="block col-1">
-      <h2>Cart Items</h2>
-      <div>
+    <div>
+      <Card
+        sx={{
+          minWidth: 275,
+          backgroundColor: "#222224",
+          color: "#ffffff",
+          m: 2,
+        }}
+      >
+        <h2 className="cart-title">Cart Items</h2>
         {cartItems.map((item) => (
-          <div key={item.id} className="row">
-            <div className="col-2">{item.title}</div>
-            <div className="col-2">
-              <button className="remove" onClick={() => onRemove(item)}>
-                -
-              </button>
-              <button className="add" onClick={() => onAdd(item)}>
-                +
-              </button>
+          <Box
+            key={item.id}
+            className="box-cart-product"
+          >
+            <div className="cart-product-title">{item.title}</div>
+            <div>
+              <Button
+                sx={{ width: "8rem", mr: 2 }}
+                variant="contained"
+                color="error"
+                onClick={() => onRemove(item)}
+              >
+                <BsCartDash size={20} />
+              </Button>
+              <Button
+                sx={{ width: "8rem" }}
+                variant="contained"
+                color="success"
+                onClick={() => onAdd(item)}
+              >
+                <BsCartPlus size={20} />
+              </Button>
             </div>
 
-            <div className="col-2 text-right">
+            <Box sx={{ textAlign: "right", fontSize:"1.4rem" }} mr={4}>
               {item.quantity} x ${item.price}
-            </div>
-          </div>
+            </Box>
+          </Box>
         ))}
 
         {cartItems.length !== 0 && (
           <>
             <hr></hr>
-            <div className="row">
-              <div className="col-2">
-                <strong>Total Price</strong>
+            <Box className="box-cart-product">
+              <div>
+                <span className="cart-product-title">Total Price</span>
               </div>
-              <div className="col-1 text-right">
-                <strong>${totalPrice}</strong>
+              <div>
+                <span className="price">${totalPrice}</span>
               </div>
-            </div>
+            </Box>
           </>
         )}
-      </div>
-    </aside>
+      </Card>
+    </div>
   );
 }
 
