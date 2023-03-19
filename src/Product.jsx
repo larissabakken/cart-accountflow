@@ -6,8 +6,6 @@ export default function Product(props) {
   const { product } = props;
   const { addToCart } = props;
 
-  console.log(product.images[0]);
-
   return (
     <Card>
       <CardContent>
