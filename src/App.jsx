@@ -3,6 +3,7 @@ import ListProducts from "./ListProducts";
 import Cart from "./Cart";
 import { addToCart, calculateTotalPrice } from "./utils";
 
+
 function App() {
   const [cartItems, setCartItems] = useState([]);
   const [products, setProducts] = useState([]);
