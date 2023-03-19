@@ -36,6 +36,7 @@ export default function Product(props) {
           <div className="price">${product.price}.00</div>
           <div>
             <Button
+              className="button-add-cart"
               variant="outlined"
               color={"success"}
               onClick={() => addToCart(product)}
