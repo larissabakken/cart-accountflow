@@ -11,9 +11,10 @@ function App() {
   useEffect(() => {
     async function fetchData() {
       const response = await fetch(
-        " https://api.escuelajs.co/api/v1/products?offset=0&limit=9"
+        "/products.json"
       );
       const jsonData = await response.json();
+      console.log(jsonData);
       setProducts(jsonData);
     }
     fetchData();
